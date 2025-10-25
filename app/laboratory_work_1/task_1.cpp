@@ -1,13 +1,12 @@
 #include <iostream>
 #include <string>
-#include <typeinfo>
 
 using namespace std;
 
 class Calculator{
     private:
         double _a = 0.0, _b = 0.0;
-        string** history = new string*[10];
+        string** _history = new string*[10];
 
         int _factorial_calculation(int n){
             if (n == 0 || n == 1){
@@ -16,73 +15,93 @@ class Calculator{
             return n * _factorial_calculation(n-1);
         }
 
+        void _convert_to_double_a(string a){
+            try{   
+                this->_a = stod(a);
+            }
+            catch(...){
+                cout << "Couldn't convert variable (a) in double. To change the values, call the method set_args(a)" << endl;
+            }
+        }
+
+        void _convert_to_double_b(string b){
+            try{   
+                this->_b = stod(b);
+            }
+            catch(...){
+                cout << "Couldn't convert variable (b) in double. To change the values, call the method set_args(b)" << endl;
+            }
+        }
+
     public:
-        Calculator(float a, float b){
+        Calculator(double a, double b){
             this->_a = a;
             this->_b = b;
         }
 
-        Calculator(string a, float b){
-            try
-            {
-                this->_a = stod(a);
-            }
-            catch(...)
-            {
-                cout << "Couldn't convert variable (a) in integer. To change the values, call the method set_args(a)" << endl;
-            }
+        Calculator(string a, double b){
+            this->_b = b;
+            this->_convert_to_double_a(a);
         }
 
-        Calculator(float a, string b){
-            try
-            {
-                this->_b = stod(b);
-            }
-            catch(...)
-            {
-                cout << "Couldn't convert variable (b) in integer. To change the values, call the method set_args(b)" << endl;
-            }
+        Calculator(double a, string b){
+            this->_a = a;
+            this->_convert_to_double_b(b);
         }
 
         Calculator(string a, string b){
-            try
-            {
-                this->_a = stod(a);
-                this->_b = stod(b);
-            }
-            catch(...)
-            {
-                cout << "Couldn't convert variables (a, b) in integers. To change the values, call the method set_args(a, b)" << endl;
-            }
+            this->_convert_to_double_a(a);
+            this->_convert_to_double_b(b);
         }
 
-        
+        void set_a(double a){
+            this->_a = a;
+        }
 
-        // float addition(){
-        //     return this->a + this->b;
-        // }
+        void set_b(double b){
+            this->_b = b;
+        }
 
-        // float subtraction(){
-        //     return this->a - this->b;
-        // }
+        void get_args(){
+            std::cout << "Var a: " << this->_a << std::endl;
+            std::cout << "Var a: " << this->_b << std::endl;
+        }
 
-        // float multiplication(){
-        //     return this->a * this->b;
-        // }
+        float addition(){
+            return this->_a + this->_b;
+        }
 
-        // float division(){
-        //     return this->a / this->b;
-        // }
+        float subtraction(){
+            return this->_a - this->_b;
+        }
 
-        // int* get_factorial_calculation(){
-        //     int result[2];
-        //     result[0] = this->_factorial_calculation(static_cast<unsigned int>(this->a));
-        //     result[1] = this->_factorial_calculation(static_cast<unsigned int>(this->b));
-        //     return result;
-        // }
+        float multiplication(){
+            return this->_a * this->_b;
+        }
+
+        float division(){
+            return this->_a / this->_b;
+        }
+
+        int* get_factorial_calculation(){
+            int* result = new int[2];
+            int a = this->_a, b = this->_b;
+            if (a < 0){
+                cout << "For variable a, we removed the minus sign, as the factorial can only be taken from a positive number." << endl;
+                a = a * -1;
+            }
+            if (b < 0){
+                cout << "For variable b, we removed the minus sign, as the factorial can only be taken from a positive number." << endl;
+                b = b * -1;
+            }
+            result[0] = this->_factorial_calculation(a);
+            result[1] = this->_factorial_calculation(b);
+            return result;
+        }
 };
 
 int main() {
-    Calculator calc('1222', 2);
+    Calculator calc("-4.5", "2");
+    std::cout << calc.get_factorial_calculation()[0] << std::endl;
     return 0;
 }
