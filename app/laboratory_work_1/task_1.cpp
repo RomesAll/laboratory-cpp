@@ -6,7 +6,6 @@ using namespace std;
 class Calculator{
     private:
         double _a = 0.0, _b = 0.0;
-        string** _history = new string*[10];
 
         int _factorial_calculation(int n){
             if (n == 0 || n == 1){
@@ -52,6 +51,11 @@ class Calculator{
         Calculator(string a, string b){
             this->_convert_to_double_a(a);
             this->_convert_to_double_b(b);
+        }
+
+        ~Calculator(){
+            this->_a = 0.0;
+            this->_b = 0.0;
         }
 
         void set_a(double a){
