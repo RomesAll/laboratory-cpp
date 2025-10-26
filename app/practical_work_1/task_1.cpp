@@ -20,10 +20,14 @@ void filling_array(int *array, unsigned short int *n){
         cout << "array[" << i << "]: ";
         cin >> array[i];
     }
+    cout << endl;
 }
 
 int main() {
-    unsigned short int n = 3;
+    unsigned short int n = 0;
+    cout << "Enter the size of the array: ";
+    cin >> n;
+    cout << endl;
     int *array = new int[n];
     filling_array(array, &n);
     cout << "Min element: " << search_min_element(array, &n) << endl;
